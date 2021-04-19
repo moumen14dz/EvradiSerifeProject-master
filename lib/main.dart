@@ -3480,11 +3480,13 @@ Future<bool> _checkPermission() async {
             savedDir: _localPath,
             showNotification: true);
         print('----------------------------------------------------');
-        Timer.periodic(Duration(seconds: 1), (timer) {
-          setState(() async {
-            var tasks = await FlutterDownloader.loadTasks();
-            var task = tasks.firstWhere((task) => task.taskId == downloadTask);
-            if (task.progress == 100) {
+        Timer.periodic(Duration(seconds: 1), (timer) async {
+          var tasks = await FlutterDownloader.loadTasks();
+          var task = tasks.firstWhere((task) => task.taskId == downloadTask);
+
+          setState(()   {
+         if (task.progress == 100) {
+
               timer.cancel();
               EasyLoading.dismiss();
               hasSoundfilePath = true;
